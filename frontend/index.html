@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Team SouL | Fan-Made Website</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="main-header">
+
+        <a href="index.html" class="brand">
+
+            <img
+                src="images/team-soul-logo.png"
+                alt="Team SouL"
+                class="team-logo">
+
+            <span class="brand-text">
+                TEAM SOUL
+            </span>
+
+        </a>
+
+        <nav>
+            <a href="index.html" class="active">HOME</a>
+            <a href="team.html">TEAM</a>
+            <a href="matches.html">MATCHES</a>
+            <a href="tournaments.html">TOURNAMENTS</a>
+            <a href="news.html">NEWS</a>
+            <a href="media.html">MEDIA</a>
+            <a href="shop.html">ACHIEVEMENTS</a>
+            <a href="about.html">ABOUT</a>
+        </nav>
+
+    </header>
+<div class="fan-disclaimer">
+    <strong>FAN-MADE WEBSITE</strong>
+    <span>
+        This is an unofficial fan-made project It is not affiliated with, endorsed by,
+        or officially connected to Team SouL or S8UL Esports.
+    </span>
+</div>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero hero-video">
+
+        <iframe
+            src="https://www.youtube.com/embed/lHrVy-_ZkGI?autoplay=1&mute=1&loop=1&playlist=lHrVy-_ZkGI&controls=0&rel=0&playsinline=1&cc_load_policy=0&iv_load_policy=3"
+            title="Team SouL"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <p class="hero-label">
+                POWERED BY S8UL ESPORTS
+            </p>
+
+            <h1>
+                TEAM<br>
+                <span>SOUL</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                BATTLEGROUNDS MOBILE INDIA
+            </p>
+
+            <p class="hero-description">
+                COMPETE. CONQUER. CREATE HISTORY.
+            </p>
+
+            <div class="buttons">
+
+                <a href="team.html" class="primary-btn">
+                    VIEW TEAM
+                </a>
+
+                <a href="tournaments.html" class="secondary-btn">
+                    TOURNAMENTS
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="scroll-indicator">
+            SCROLL TO EXPLORE
+            <span>↓</span>
+        </div>
+
+    </section>
+
+
+    <!-- ================= QUICK STATS ================= -->
+
+    <section class="quick-stats">
+
+        <div class="stat-box">
+            <strong>SOUL</strong>
+            <span>ESPORTS TEAM</span>
+        </div>
+
+        <div class="stat-box">
+            <strong>BGMI</strong>
+            <span>COMPETITIVE GAME</span>
+        </div>
+
+        <div class="stat-box">
+            <strong>2026</strong>
+            <span>ACTIVE SEASON</span>
+        </div>
+
+        <div class="stat-box">
+            <strong>S8UL</strong>
+            <span>ESPORTS ORGANIZATION</span>
+        </div>
+
+    </section>
+
+
+    <!-- ================= INTRO ================= -->
+
+    <section class="intro home-intro">
+
+        <p class="section-label">
+            WELCOME TO SOUL
+        </p>
+
+        <h2>
+            THE GRIND.<br>
+            <span>THE LEGACY.</span>
+        </h2>
+
+        <p>
+            Welcome to the official Team SouL esports website.
+            Follow our roster, competitive matches, tournaments,
+            results and latest news.
+        </p>
+
+    </section>
+
+
+    <!-- ================= CURRENT TOURNAMENT ================= -->
+
+    <section class="home-section featured-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="section-label">
+                    CURRENTLY COMPETING
+                </p>
+
+                <h2>
+                    BMSD <span>2026</span>
+                </h2>
+
+            </div>
+
+            <a href="tournaments.html" class="text-link">
+                VIEW TOURNAMENT →
+            </a>
+
+        </div>
+
+
+        <div class="current-tournament-card">
+
+            <div class="tournament-main">
+
+                <span class="live-dot"></span>
+
+                <div>
+
+                    <small>
+                        LIVE TOURNAMENT
+                    </small>
+
+                    <h3>
+                        BATTLEGROUNDS MOBILE INDIA
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="tournament-action">
+
+                <a href="tournaments.html">
+                    VIEW RESULTS
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PLAYERS ================= -->
+
+    <section class="home-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="section-label">
+                    THE ROSTER
+                </p>
+
+                <h2>
+                    OUR <span>PLAYERS</span>
+                </h2>
+
+            </div>
+
+            <a href="team.html" class="text-link">
+                FULL ROSTER →
+            </a>
+
+        </div>
+
+
+        <div
+            id="homePlayers"
+            class="home-grid players-grid">
+
+            <p>
+                Loading players...
+            </p>
+
+        </div>
+
+    </section>
+
+<!-- ================= TROPHY CABINET ================= -->
+
+<section class="trophy-section">
+
+    <div class="trophy-heading">
+
+        <p>TEAM SOUL • OFFICIAL CHAMPIONSHIPS</p>
+
+        <h2>
+            TROPHY <span>CABINET</span>
+        </h2>
+
+        <p class="trophy-subtitle">
+            Championship victories that define the Team SouL legacy.
+        </p>
+
+    </div>
+
+
+    <div class="trophy-grid">
+
+
+        <!-- PMIS 2019 -->
+
+        <article class="trophy-card">
+
+            <div class="trophy-image">
+
+                <img
+                    src="https://images.financialexpressdigital.com/2019/06/pubg-berlin-soul-mortal.jpg?w=1200"
+                    alt="Team SouL 2019 PMIS championship">
+
+            </div>
+
+            <div class="trophy-content">
+
+                <span class="trophy-year">
+                    2019
+                </span>
+
+                <h3>
+                    PUBG MOBILE INDIA SERIES
+                    2019
+                </h3>
+
+                <p>
+                    CHAMPIONS
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- PMCO 2019 -->
+
+        <article class="trophy-card">
+
+            <div class="trophy-image">
+
+                <img
+                    src="https://images.financialexpressdigital.com/2019/06/pubg-berlin-soul-mortal.jpg?w=1200"
+                    alt="Team SouL PMCO 2019 Spring Split India">
+
+            </div>
+
+            <div class="trophy-content">
+
+                <span class="trophy-year">
+                    2019
+                </span>
+
+                <h3>
+                    PMCO 2019
+                    SPRING SPLIT: INDIA
+                </h3>
+
+                <p>
+                    CHAMPIONS
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- BMPS 2022 -->
+
+        <article class="trophy-card">
+
+            <div class="trophy-image">
+
+               <img
+    src="https://www.mykhel.com/img/2022/06/teamsoulchampionsbmps2022-1655205815.jpg"
+    alt="Team SouL BMPS Season 1 champions">
+            </div>
+
+            <div class="trophy-content">
+
+                <span class="trophy-year">
+                    2022
+                </span>
+
+                <h3>
+                    BGMI PRO SERIES
+                    SEASON 1
+                </h3>
+
+                <p>
+                    CHAMPIONS
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <!-- BGIS 2026 -->
+
+        <article class="trophy-card">
+
+            <div class="trophy-image">
+<img
+    src="https://cdn.escharts.com/media/quick-upload/2026/03/BGIS26-5da95d83dad6296fa1bf05c02c5ffb74.jpg"
+    alt="Team SouL BGIS 2026 champions">
+             
+            </div>
+
+            <div class="trophy-content">
+
+                <span class="trophy-year">
+                    2026
+                </span>
+
+                <h3>
+                    BGMI SERIES
+                    2026
+                </h3>
+
+                <p>
+                    CHAMPIONS
+                </p>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+    
+
+    
+
+    
+
+
+    
+
+   <!-- ================= MORTAL FEATURE ================= -->
+
+<section class="mortal-feature">
+
+    <div class="mortal-image">
+
+        <img
+            src="https://wallpaperaccess.com/full/4603532.jpg"
+            alt="MortaL - Team SouL">
+
+    </div>
+
+    <div class="mortal-overlay"></div>
+
+    <div class="mortal-content">
+
+        <p class="mortal-label">
+            TEAM SOUL • LEGACY
+        </p>
+
+        <h2>
+            THE SOUL
+            <span>LEGACY</span>
+        </h2>
+
+        <p class="mortal-description">
+            A legacy built through passion, competition
+            and unforgettable moments.
+        </p>
+
+        <a href="team.html" class="mortal-btn">
+            EXPLORE TEAM →
+        </a>
+
+    </div>
+
+</section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="home-cta">
+
+        <div>
+
+            <p class="section-label">
+                FOLLOW THE JOURNEY
+            </p>
+
+            <h2>
+                WELCOME TO
+                <span>TEAM SOUL</span>
+            </h2>
+
+            <p>
+                Follow the team and stay updated with every match,
+                tournament and milestone.
+            </p>
+
+            <div class="buttons">
+
+                <a href="team.html" class="primary-btn">
+                    MEET THE TEAM
+                </a>
+
+                <a href="media.html" class="secondary-btn">
+                    WATCH MEDIA
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+                    SOUL
+                </div>
+
+                <p>
+                    TEAM SOUL
+                </p>
+
+                <span>
+                    POWERED BY S8UL ESPORTS
+                </span>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>
+                    EXPLORE
+                </h4>
+
+                <a href="team.html">
+                    Team
+                </a>
+
+                <a href="matches.html">
+                    Matches
+                </a>
+
+                <a href="tournaments.html">
+                    Tournaments
+                </a>
+
+                <a href="news.html">
+                    News
+                </a>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>
+                    MORE
+                </h4>
+
+                <a href="media.html">
+                    Media
+                </a>
+
+                <a href="shop.html">
+                    ACHIEVEMENTS
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>
+                    SOCIAL
+                </h4>
+
+                <a
+                    href="https://www.youtube.com/@S8UL"
+                    target="_blank">
+                    YouTube
+                </a>
+
+                <a
+                    href="https://s8ul.live/"
+                    target="_blank">
+                    S8UL
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Team SouL. All rights reserved.
+            </p>
+
+            <p>
+                TEAM SOUL • S8UL ESPORTS
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const PLAYER_API =
+            "http://localhost:8080/api/players";
+
+        const MATCH_API =
+            "http://localhost:8080/api/matches";
+
+        const TOURNAMENT_API =
+            "http://localhost:8080/api/tournaments";
+
+        const NEWS_API =
+            "http://localhost:8080/api/news";
+
+
+        /* ================= PLAYERS ================= */
+
+        async function loadHomePlayers() {
+
+            const container =
+                document.getElementById("homePlayers");
+
+            try {
+
+                const response =
+                    await fetch(PLAYER_API);
+
+                if (!response.ok) {
+                    throw new Error("Players API error");
+                }
+
+                const players =
+                    await response.json();
+
+                container.innerHTML = "";
+
+                if (!players.length) {
+
+                    container.innerHTML =
+                        "<p>No players available.</p>";
+
+                    return;
+                }
+
+                players.slice(0, 4).forEach(player => {
+
+                    container.innerHTML += `
+
+                        <article class="home-player">
+
+                            <div class="home-player-image">
+
+                                ${
+                                    player.image
+                                    ? `
+                                        <img
+                                            src="${player.image}"
+                                            alt="${player.playerName || "Team SouL player"}">
+                                    `
+                                    : `
+                                        <div class="player-placeholder">
+                                            SOUL
+                                        </div>
+                                    `
+                                }
+
+                            </div>
+
+                            <div class="home-player-info">
+
+                                <span>
+                                    ${player.role || "PLAYER"}
+                                </span>
+
+                                <h3>
+                                    ${player.playerName || ""}
+                                </h3>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                });
+
+            } catch (error) {
+
+                container.innerHTML =
+                    "<p>Unable to load players.</p>";
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        /* ================= MATCHES ================= */
+
+        async function loadHomeMatches() {
+
+            const container =
+                document.getElementById("homeMatches");
+
+            try {
+
+                const response =
+                    await fetch(MATCH_API);
+
+                if (!response.ok) {
+                    throw new Error("Matches API error");
+                }
+
+                const matches =
+                    await response.json();
+
+                container.innerHTML = "";
+
+                if (!matches.length) {
+
+                    container.innerHTML =
+                        "<p>No matches available.</p>";
+
+                    return;
+                }
+
+                matches.slice(0, 3).forEach(match => {
+
+                    container.innerHTML += `
+
+                        <article class="home-match">
+
+                            <div class="match-top">
+
+                                <span>
+                                    ${match.status || "UPCOMING"}
+                                </span>
+
+                            </div>
+
+                            <h3>
+                                ${match.opponent || "Opponent"}
+                            </h3>
+
+                            <p>
+                                ${match.tournament || "Tournament"}
+                            </p>
+
+                            <div class="match-info">
+
+                                <span>
+                                    ${match.matchDate || ""}
+                                </span>
+
+                                <span>
+                                    ${match.matchTime || ""}
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                });
+
+            } catch (error) {
+
+                container.innerHTML =
+                    "<p>Unable to load matches.</p>";
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        /* ================= TOURNAMENTS ================= */
+
+        async function loadHomeTournaments() {
+
+            const container =
+                document.getElementById("homeTournaments");
+
+            try {
+
+                const response =
+                    await fetch(TOURNAMENT_API);
+
+                if (!response.ok) {
+                    throw new Error("Tournament API error");
+                }
+
+                const tournaments =
+                    await response.json();
+
+                container.innerHTML = "";
+
+                if (!tournaments.length) {
+
+                    container.innerHTML =
+                        "<p>No tournaments available.</p>";
+
+                    return;
+                }
+
+                tournaments.slice(0, 3).forEach(tournament => {
+
+                    container.innerHTML += `
+
+                        <article class="home-tournament">
+
+                            <span class="tournament-year">
+                                ${tournament.year || ""}
+                            </span>
+
+                            <h3>
+                                ${tournament.name || ""}
+                            </h3>
+
+                            <div class="tournament-result">
+
+                                <span>
+                                    POSITION
+                                </span>
+
+                                <strong>
+                                    ${tournament.position || "-"}
+                                </strong>
+
+                            </div>
+
+                            <p>
+                                ${tournament.prize || ""}
+                            </p>
+
+                        </article>
+
+                    `;
+
+                });
+
+            } catch (error) {
+
+                container.innerHTML =
+                    "<p>Unable to load tournaments.</p>";
+
+                console.error(error);
+
+            }
+
+        }
+
+
+
+/* ================= LOAD EVERYTHING ================= */
+
+loadHomePlayers();
+loadHomeMatches();
+loadHomeTournaments();
+    </script>
+
+</body>
+
+</html>

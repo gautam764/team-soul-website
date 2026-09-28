@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Team SouL | Media</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="main-header">
+
+    <a
+        href="index.html"
+        class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+
+    <nav>
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a href="team.html">
+            TEAM
+        </a>
+
+        <a href="matches.html">
+            MATCHES
+        </a>
+
+        <a href="tournaments.html">
+            TOURNAMENTS
+        </a>
+
+        <a href="news.html">
+            NEWS
+        </a>
+
+        <a
+            href="media.html"
+            class="active">
+
+            MEDIA
+
+        </a>
+
+        <a href="shop.html">
+            ACHIEVEMENTS
+        </a>
+
+        <a href="about.html">
+            ABOUT
+        </a>
+
+        <a href="contact.html">
+            CONTACT
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section class="intro">
+
+    <p class="red">
+        TEAM SOUL • MEDIA
+    </p>
+
+    <h2>
+        MEDIA
+    </h2>
+
+    <p>
+        Explore Team SouL's gaming content,
+        videos, highlights, vlogs and shorts.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     MEDIA VIDEOS
+========================= -->
+
+<section class="media-section">
+
+    <div class="media-heading">
+
+        <div>
+
+            <p class="media-label">
+                TEAM SOUL
+            </p>
+
+            <h2>
+                VLOGS & SHORTS
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="mediaContainer"
+        class="public-media-grid">
+
+        <p class="media-loading">
+            LOADING VIDEOS...
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <a
+            href="index.html"
+            class="brand">
+
+            <img
+                src="images/team-soul-logo.png"
+                alt="Team SouL"
+                class="team-logo">
+
+            <span class="brand-text">
+                TEAM SOUL
+            </span>
+
+        </a>
+
+
+        <p>
+            TEAM SOUL • S8UL ESPORTS
+        </p>
+
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="team.html">
+                Team
+            </a>
+
+            <a href="matches.html">
+                Matches
+            </a>
+
+            <a href="tournaments.html">
+                Tournaments
+            </a>
+
+            <a href="news.html">
+                News
+            </a>
+
+            <a href="media.html">
+                Media
+            </a>
+
+            <a href="shop.html">
+                Achievements
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+
+        <small>
+            © 2026 Team SouL.
+            All rights reserved.
+        </small>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+const API =
+    "http://localhost:8080/api/media";
+
+
+
+/* =========================
+   YOUTUBE ID
+========================= */
+
+function getYouTubeId(url) {
+
+    try {
+
+        const parsed =
+            new URL(url);
+
+
+        if (
+            parsed.hostname.includes(
+                "youtu.be"
+            )
+        ) {
+
+            return parsed.pathname
+                .substring(1);
+
+        }
+
+
+        if (
+            parsed.hostname.includes(
+                "youtube.com"
+            )
+        ) {
+
+            if (
+                parsed.pathname
+                    .startsWith("/shorts/")
+            ) {
+
+                return parsed.pathname
+                    .split("/shorts/")[1]
+                    .split("/")[0];
+
+            }
+
+
+            return parsed.searchParams
+                .get("v");
+
+        }
+
+
+        return null;
+
+    }
+
+    catch {
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =========================
+   LOAD MEDIA
+========================= */
+
+async function loadMedia() {
+
+    const container =
+        document.getElementById(
+            "mediaContainer"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(API);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load media"
+            );
+
+        }
+
+
+        const media =
+            await response.json();
+
+
+        container.innerHTML = "";
+
+
+        /* =========================
+           NO VIDEOS
+        ========================= */
+
+        if (media.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="media-empty">
+
+                    <h3>
+                        MORE CONTENT COMING SOON
+                    </h3>
+
+                    <p>
+                        Team SouL videos, vlogs
+                        and shorts will appear here.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        /* =========================
+           DISPLAY VIDEOS
+        ========================= */
+
+        media
+            .slice()
+            .reverse()
+            .forEach(item => {
+
+                const videoId =
+                    getYouTubeId(
+                        item.videoUrl
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "public-media-card";
+
+
+                if (videoId) {
+
+                    card.innerHTML = `
+
+                        <div class="media-video">
+
+                            <iframe
+                                src="https://www.youtube.com/embed/${videoId}"
+                                title="${item.title || "Team SouL Video"}"
+                                loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+
+                        </div>
+
+
+                        <div class="media-card-content">
+
+                            <span class="media-category">
+                                ${item.category || "MEDIA"}
+                            </span>
+
+
+                            <h3>
+                                ${item.title || "Team SouL Video"}
+                            </h3>
+
+
+                            <p>
+                                ${item.description || ""}
+                            </p>
+
+
+                            <a
+                                href="${item.videoUrl}"
+                                target="_blank"
+                                rel="noopener noreferrer">
+
+                                WATCH ON YOUTUBE →
+
+                            </a>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                else {
+
+                    card.innerHTML = `
+
+                        <div class="media-card-content">
+
+                            <span class="media-category">
+                                ${item.category || "MEDIA"}
+                            </span>
+
+
+                            <h3>
+                                ${item.title || "Team SouL Video"}
+                            </h3>
+
+
+                            <p>
+                                ${item.description || ""}
+                            </p>
+
+
+                            <a
+                                href="${item.videoUrl}"
+                                target="_blank"
+                                rel="noopener noreferrer">
+
+                                WATCH VIDEO →
+
+                            </a>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                container.appendChild(card);
+
+            });
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+
+            <div class="media-empty">
+
+                <h3>
+                    MEDIA UNAVAILABLE
+                </h3>
+
+                <p>
+                    Please try again later.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+loadMedia();
+
+</script>
+
+
+</body>
+
+</html>

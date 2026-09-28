@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Daily Standings | Team SouL</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <nav class="admin-nav">
+
+        <a href="index.html">Dashboard</a>
+
+        <a href="players.html">Players</a>
+
+        <a href="matches.html">Matches</a>
+
+        <a href="tournaments.html">Tournaments</a>
+<a href="media.html">
+    Media
+</a>
+        <a href="news.html">News</a>
+
+        <a href="../index.html">Website</a>
+
+    </nav>
+
+
+    <section class="admin-header">
+
+        <p class="admin-label">
+            TEAM SOUL • BGMI
+        </p>
+
+        <h1>
+            DAILY STANDINGS
+        </h1>
+
+        <p class="admin-subtitle">
+            Enter the final overall standings for each BGMI match day.
+        </p>
+
+    </section>
+
+
+    <div class="form-box">
+
+        <h2>
+            Add Overall Day Standing
+        </h2>
+
+        <input
+            type="text"
+            id="tournament"
+            placeholder="Tournament Name"
+        >
+
+        <input
+            type="text"
+            id="matchDay"
+            placeholder="Match Day e.g. Day 3"
+        >
+
+        <input
+            type="text"
+            id="teamName"
+            placeholder="Team Name"
+        >
+
+        <input
+            type="number"
+            id="rank"
+            placeholder="Overall Rank"
+        >
+
+        <input
+            type="number"
+            id="finishPoints"
+            placeholder="Finish Points"
+        >
+
+        <input
+            type="number"
+            id="placementPoints"
+            placeholder="Placement Points"
+        >
+
+        <input
+            type="number"
+            id="totalPoints"
+            placeholder="Total Points"
+        >
+
+        <button onclick="addStanding()">
+            ADD STANDING
+        </button>
+
+    </div>
+
+
+    <h2>
+        Daily Standings
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Tournament</th>
+
+                <th>Day</th>
+
+                <th>Rank</th>
+
+                <th>Team</th>
+
+                <th>Finish</th>
+
+                <th>Placement</th>
+
+                <th>Total</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="standingTable"></tbody>
+
+    </table>
+
+</div>
+
+
+<script>
+
+const API =
+    "http://localhost:8080/api/daily-standings";
+
+
+async function loadStandings() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}?tournament=BGIS%202026&matchDay=Day%201`
+            );
+
+        if (!response.ok) {
+            return;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+async function addStanding() {
+
+    const standing = {
+
+        tournament:
+            document.getElementById(
+                "tournament"
+            ).value.trim(),
+
+        matchDay:
+            document.getElementById(
+                "matchDay"
+            ).value.trim(),
+
+        teamName:
+            document.getElementById(
+                "teamName"
+            ).value.trim(),
+
+        rank:
+            Number(
+                document.getElementById(
+                    "rank"
+                ).value
+            ),
+
+        finishPoints:
+            Number(
+                document.getElementById(
+                    "finishPoints"
+                ).value
+            ),
+
+        placementPoints:
+            Number(
+                document.getElementById(
+                    "placementPoints"
+                ).value
+            ),
+
+        totalPoints:
+            Number(
+                document.getElementById(
+                    "totalPoints"
+                ).value
+            )
+
+    };
+
+
+    if (
+        !standing.tournament ||
+        !standing.matchDay ||
+        !standing.teamName
+    ) {
+
+        alert(
+            "Please fill Tournament, Day and Team."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(API, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(standing)
+
+            });
+
+
+        if (!response.ok) {
+
+            alert(
+                "Standing could not be added."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Daily standing added successfully!"
+        );
+
+
+        document
+            .querySelectorAll(".form-box input")
+            .forEach(input => {
+                input.value = "";
+            });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not connect to Spring Boot."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

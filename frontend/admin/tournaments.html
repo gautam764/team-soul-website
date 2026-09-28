@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Tournaments - Team SouL</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+   <nav class="admin-nav">
+    <a href="index.html">Dashboard</a>
+    <a href="players.html">Players</a>
+    <a href="matches.html">Matches</a>
+    <a href="tournaments.html">Tournaments</a>
+    <a href="news.html">News</a>
+    <a href="../index.html">Website</a>
+    <a href="media.html">
+    Media
+</a>
+</nav>
+
+    <h1>Manage Tournaments</h1>
+
+    <div class="form-box">
+
+        <h2>Add Tournament</h2>
+
+        <input type="text" id="name" placeholder="Tournament Name">
+
+        <input type="number" id="year" placeholder="Year">
+
+        <input type="text" id="position" placeholder="Position">
+
+        <input type="text" id="prize" placeholder="Prize">
+
+        <button onclick="addTournament()">Add Tournament</button>
+
+    </div>
+
+    <h2>Tournaments</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Position</th>
+                <th>Prize</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="tournamentsTable"></tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const API = "http://localhost:8080/api/tournaments";
+
+
+async function loadTournaments() {
+
+    const response = await fetch(API);
+
+    const tournaments = await response.json();
+
+    const table = document.getElementById("tournamentsTable");
+
+    table.innerHTML = "";
+
+    tournaments.forEach(tournament => {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${tournament.id}</td>
+
+                <td>${tournament.name || ""}</td>
+
+                <td>${tournament.year || ""}</td>
+
+                <td>${tournament.position || ""}</td>
+
+                <td>${tournament.prize || ""}</td>
+
+                <td>
+
+                    <button onclick="deleteTournament(${tournament.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+async function addTournament() {
+
+    const tournament = {
+
+        name: document.getElementById("name").value,
+
+        year: document.getElementById("year").value,
+
+        position: document.getElementById("position").value,
+
+        prize: document.getElementById("prize").value
+
+    };
+
+    await fetch(API, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(tournament)
+
+    });
+
+    alert("Tournament added successfully!");
+
+    document.getElementById("name").value = "";
+    document.getElementById("year").value = "";
+    document.getElementById("position").value = "";
+    document.getElementById("prize").value = "";
+
+    loadTournaments();
+
+}
+
+
+async function deleteTournament(id) {
+
+    if (!confirm("Delete this tournament?")) {
+        return;
+    }
+
+    await fetch(`${API}/${id}`, {
+        method: "DELETE"
+    });
+
+    loadTournaments();
+
+}
+
+
+loadTournaments();
+
+</script>
+
+</body>
+
+</html>

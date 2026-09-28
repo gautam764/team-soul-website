@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Team SouL | Match OCR</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #05070a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .ocr-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 110px 30px 60px;
+        }
+
+        .ocr-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .ocr-header h1 {
+            margin: 0 0 10px;
+            font-size: 38px;
+            font-weight: 900;
+        }
+
+        .ocr-header p {
+            margin: 0;
+            color: #8c96a3;
+        }
+
+        .ocr-box {
+            background: #0b1016;
+            border: 1px solid #1b2a3a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .ocr-box h2 {
+            margin: 0 0 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #9ba7b5;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 13px;
+            background: #05080c;
+            border: 1px solid #263747;
+            border-radius: 6px;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #168cff;
+        }
+
+        .upload-area {
+            margin-top: 22px;
+            padding: 35px;
+            border: 2px dashed #263747;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .upload-area input {
+            margin-top: 15px;
+            color: #ffffff;
+        }
+
+        .preview {
+            max-width: 100%;
+            max-height: 500px;
+            margin: 25px auto 0;
+            display: none;
+            border-radius: 8px;
+            border: 1px solid #263747;
+        }
+
+        .ocr-button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #168cff;
+            color: #ffffff;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .ocr-button:hover {
+            background: #0876dd;
+        }
+
+        .ocr-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: #070b10;
+            border-radius: 6px;
+            color: #9ba7b5;
+            display: none;
+        }
+
+        .result-box {
+            display: none;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        .result-item {
+            background: #070b10;
+            border: 1px solid #1b2a3a;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .result-item span {
+            display: block;
+            color: #718092;
+            font-size: 10px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .result-item strong {
+            font-size: 24px;
+        }
+
+        .save-button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #19a463;
+            color: #ffffff;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #148a52;
+        }
+
+        .save-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .raw-text {
+            margin-top: 20px;
+            padding: 15px;
+            background: #030507;
+            border: 1px solid #182331;
+            border-radius: 6px;
+            white-space: pre-wrap;
+            color: #8d99a7;
+            font-size: 12px;
+            max-height: 250px;
+            overflow: auto;
+        }
+
+        .detected-note {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(22, 140, 255, 0.08);
+            border: 1px solid rgba(22, 140, 255, 0.2);
+            border-radius: 6px;
+            color: #8ebfff;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .ocr-page {
+                padding: 90px 15px 40px;
+            }
+
+            .ocr-box {
+                padding: 20px;
+            }
+
+            .form-grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ocr-header h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="ocr-page">
+
+
+    <!-- HEADER -->
+
+    <div class="ocr-header">
+
+        <h1>
+            TEAM SOUL MATCH OCR
+        </h1>
+
+        <p>
+            Upload an eSportsAmaze match screenshot
+            and automatically save Team SouL's result.
+        </p>
+
+    </div>
+
+
+    <!-- MATCH SETTINGS -->
+
+    <div class="ocr-box">
+
+        <h2>
+            Current Match
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    TOURNAMENT
+                </label>
+
+                <input
+                    type="text"
+                    id="tournament"
+                    value="BMSD 2026">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    DAY
+                </label>
+
+                <select id="matchDay">
+
+                    <option value="Day 1">
+                        Day 1
+                    </option>
+
+                    <option value="Day 2">
+                        Day 2
+                    </option>
+
+                    <option value="Day 3">
+                        Day 3
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <div class="upload-area">
+
+            <strong>
+                Upload eSportsAmaze Screenshot
+            </strong>
+
+            <br>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*">
+
+
+            <img
+                id="preview"
+                class="preview"
+                alt="Screenshot preview">
+
+        </div>
+
+
+        <!-- OCR BUTTON -->
+
+        <button
+            id="ocrButton"
+            class="ocr-button"
+            disabled>
+
+            READ SCREENSHOT
+
+        </button>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div
+        id="resultBox"
+        class="ocr-box result-box">
+
+
+        <h2>
+            Team SouL Result Detected
+        </h2>
+
+
+        <div class="result-grid">
+
+
+            <div class="result-item">
+
+                <span>
+                    MATCH
+                </span>
+
+                <strong id="resultMatch">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <span>
+                    RANK
+                </span>
+
+                <strong id="resultRank">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <span>
+                    ELIMINATIONS
+                </span>
+
+                <strong id="resultElims">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <span>
+                    PLACEMENT
+                </span>
+
+                <strong id="resultPlacement">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong id="resultTotal">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="detected-note">
+
+            OCR reads the Team SouL row and determines
+            the values from left to right:
+            Rank → WWCD → Eliminations → Placement → Total.
+
+        </div>
+
+
+        <button
+            id="saveButton"
+            class="save-button">
+
+            SAVE MATCH RESULT
+
+        </button>
+
+
+        <div
+            id="rawText"
+            class="raw-text">
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- TESSERACT -->
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API =
+    "http://localhost:8080/api/daily-standings";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const imageInput =
+    document.getElementById("imageInput");
+
+const preview =
+    document.getElementById("preview");
+
+const ocrButton =
+    document.getElementById("ocrButton");
+
+const statusBox =
+    document.getElementById("status");
+
+const resultBox =
+    document.getElementById("resultBox");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let selectedImage = null;
+
+let detectedResult = null;
+
+
+/* =====================================================
+   IMAGE SELECTED
+===================================================== */
+
+imageInput.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+
+        if (!file) {
+
+            return;
+
+        }
+
+
+        selectedImage =
+            file;
+
+
+        preview.src =
+            URL.createObjectURL(file);
+
+
+        preview.style.display =
+            "block";
+
+
+        ocrButton.disabled =
+            false;
+
+
+        detectedResult =
+            null;
+
+
+        resultBox.style.display =
+            "none";
+
+
+        saveButton.disabled =
+            false;
+
+
+        saveButton.textContent =
+            "SAVE MATCH RESULT";
+
+
+        setStatus(
+            "Screenshot selected. Click READ SCREENSHOT."
+        );
+
+    }
+);
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function setStatus(message) {
+
+    statusBox.style.display =
+        "block";
+
+    statusBox.textContent =
+        message;
+
+}
+
+
+/* =====================================================
+   MATCH RANGE
+===================================================== */
+
+function getMatchRange(day) {
+
+    if (day === "Day 1") {
+
+        return {
+            start: 1,
+            end: 6
+        };
+
+    }
+
+
+    if (day === "Day 2") {
+
+        return {
+            start: 7,
+            end: 12
+        };
+
+    }
+
+
+    return {
+        start: 13,
+        end: 18
+    };
+
+}
+
+
+/* =====================================================
+   READ SCREENSHOT
+===================================================== */
+
+ocrButton.addEventListener(
+    "click",
+    async function () {
+
+
+        if (!selectedImage) {
+
+            return;
+
+        }
+
+
+        ocrButton.disabled =
+            true;
+
+
+        setStatus(
+            "Reading screenshot... Please wait."
+        );
+
+
+        try {
+
+
+            const result =
+                await Tesseract.recognize(
+
+                    selectedImage,
+                    "eng",
+
+                    {
+
+                        logger: function (info) {
+
+                            if (info.status) {
+
+                                const percent =
+                                    Math.round(
+                                        (
+                                            info.progress ||
+                                            0
+                                        ) * 100
+                                    );
+
+
+                                setStatus(
+                                    info.status +
+                                    " " +
+                                    percent +
+                                    "%"
+                                );
+
+                            }
+
+                        },
+
+                        config: {
+
+                            tessedit_pageseg_mode: 6
+
+                        }
+
+                    }
+
+                );
+
+
+            const text =
+                result.data.text;
+
+
+            document
+                .getElementById("rawText")
+                .textContent =
+                text;
+
+
+            const parsed =
+                await findSoulResultByPosition(
+                    result.data,
+                    selectedImage
+                );
+
+
+            if (!parsed) {
+
+                setStatus(
+                    "Team SouL row could not be detected. " +
+                    "Please use the full eSportsAmaze scorecard screenshot."
+                );
+
+
+                ocrButton.disabled =
+                    false;
+
+                return;
+
+            }
+
+
+            const day =
+                document
+                    .getElementById("matchDay")
+                    .value;
+
+
+            const nextMatch =
+                await getNextMatchNumber(
+                    day
+                );
+
+
+            detectedResult = {
+
+                tournament:
+                    document
+                        .getElementById("tournament")
+                        .value
+                        .trim(),
+
+                matchDay:
+                    day,
+
+                matchNumber:
+                    nextMatch,
+
+                teamName:
+                    "Team SouL",
+
+                rank:
+                    parsed.rank,
+
+                finishPoints:
+                    parsed.eliminations,
+
+                placementPoints:
+                    parsed.placement,
+
+                totalPoints:
+                    parsed.total
+
+            };
+
+
+            document
+                .getElementById("resultMatch")
+                .textContent =
+                "M" + nextMatch;
+
+
+            document
+                .getElementById("resultRank")
+                .textContent =
+                parsed.rank;
+
+
+            document
+                .getElementById("resultElims")
+                .textContent =
+                parsed.eliminations;
+
+
+            document
+                .getElementById("resultPlacement")
+                .textContent =
+                parsed.placement;
+
+
+            document
+                .getElementById("resultTotal")
+                .textContent =
+                parsed.total;
+
+
+            resultBox.style.display =
+                "block";
+
+
+            saveButton.disabled =
+                false;
+
+
+            saveButton.textContent =
+                "SAVE MATCH RESULT";
+
+
+            setStatus(
+                "Match " +
+                nextMatch +
+                " detected. Check the result and click SAVE MATCH RESULT."
+            );
+
+        }
+
+
+        catch (error) {
+
+            console.error(error);
+
+
+            setStatus(
+                "OCR ERROR: " +
+                (error.message || error)
+            );
+
+        }
+
+
+        ocrButton.disabled =
+            false;
+
+    }
+);
+
+
+/* =====================================================
+   FIND TEAM SOUL USING OCR POSITIONS
+===================================================== */
+
+async function findSoulResultByPosition(
+    data,
+    imageFile
+) {
+
+    if (
+        !data ||
+        !data.words ||
+        !data.words.length
+    ) {
+
+        return null;
+
+    }
+
+
+    /*
+     * Find Team SouL.
+     */
+
+    let soulWord =
+        data.words.find(word => {
+
+            const text =
+                String(word.text || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            return (
+                text === "soul" ||
+                text === "sou" ||
+                text.includes("soul")
+            );
+
+        });
+
+
+    /*
+     * Backup search.
+     */
+
+    if (!soulWord) {
+
+        soulWord =
+            data.words.find(word => {
+
+                const text =
+                    String(word.text || "")
+                        .trim()
+                        .toLowerCase();
+
+
+                return text.includes("sou");
+
+            });
+
+    }
+
+
+    if (!soulWord) {
+
+        return null;
+
+    }
+
+
+    /*
+     * Team SouL position.
+     */
+
+    const soulBox =
+        soulWord.bbox;
+
+
+    const soulCenterY =
+        (
+            soulBox.y0 +
+            soulBox.y1
+        ) / 2;
+
+
+    /*
+     * Find numeric values
+     * on Team SouL's row.
+     */
+
+    const rowNumbers =
+        data.words
+
+            .filter(word => {
+
+                const text =
+                    String(word.text || "")
+                        .trim();
+
+
+                if (!/^\d+$/.test(text)) {
+
+                    return false;
+
+                }
+
+
+                const box =
+                    word.bbox;
+
+
+                const centerY =
+                    (
+                        box.y0 +
+                        box.y1
+                    ) / 2;
+
+
+                return (
+                    Math.abs(
+                        centerY -
+                        soulCenterY
+                    ) <= 35
+                );
+
+            })
+
+            .map(word => {
+
+                return {
+
+                    value:
+                        Number(
+                            word.text.trim()
+                        ),
+
+                    x:
+                        (
+                            word.bbox.x0 +
+                            word.bbox.x1
+                        ) / 2,
+
+                    y:
+                        (
+                            word.bbox.y0 +
+                            word.bbox.y1
+                        ) / 2
+
+                };
+
+            })
+
+            .sort(
+                (a, b) =>
+                    a.x - b.x
+            );
+
+
+    console.log(
+        "Team SouL row:",
+        rowNumbers
+    );
+
+
+    /*
+     * =================================================
+     * SPECIAL RANK OCR
+     * =================================================
+     */
+
+    let rank =
+        null;
+
+
+    try {
+
+        rank =
+            await readRankFromImage(
+                imageFile,
+                soulCenterY,
+                soulBox.x0
+            );
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Special rank OCR failed:",
+            error
+        );
+
+    }
+
+
+    /*
+     * The first number in the Team SouL
+     * row is normally the rank.
+     *
+     * Example:
+     *
+     * 8 | 0 | 3 | 2 | 5
+     *
+     *          ↑
+     *        Rank
+     */
+
+    const rowRank =
+        rowNumbers.length >= 1
+            ? rowNumbers[0].value
+            : null;
+
+
+    /*
+     * Safety check.
+     *
+     * If special OCR reads something
+     * obviously different from the row
+     * rank, use the row rank.
+     *
+     * This prevents values such as
+     * 84 from being accepted when the
+     * actual rank is 8.
+     */
+
+    if (
+        rowRank !== null &&
+        Number.isFinite(rowRank) &&
+        rowRank >= 1 &&
+        rowRank <= 30
+    ) {
+
+        if (
+            rank === null ||
+            rank === undefined ||
+            rank < 1 ||
+            rank > 30 ||
+            (
+                String(rank).length > 1 &&
+                String(rowRank).length === 1 &&
+                Math.floor(rank / 10) === rowRank
+            )
+        ) {
+
+            rank =
+                rowRank;
+
+        }
+
+    }
+
+
+    /*
+     * If special OCR is still invalid,
+     * use the row rank.
+     */
+
+    if (
+        rank === null ||
+        rank === undefined ||
+        !Number.isFinite(rank) ||
+        rank < 1 ||
+        rank > 100
+    ) {
+
+        rank =
+            rowRank;
+
+    }
+
+
+    /*
+     * Extract:
+     *
+     * Rank
+     * WWCD
+     * Eliminations
+     * Placement
+     * Total
+     */
+
+    let eliminations;
+    let placement;
+    let total;
+
+
+    if (rowNumbers.length >= 5) {
+
+        eliminations =
+            rowNumbers[
+                rowNumbers.length - 3
+            ].value;
+
+
+        placement =
+            rowNumbers[
+                rowNumbers.length - 2
+            ].value;
+
+
+        total =
+            rowNumbers[
+                rowNumbers.length - 1
+            ].value;
+
+    }
+
+
+    else if (rowNumbers.length === 4) {
+
+        eliminations =
+            rowNumbers[1].value;
+
+
+        placement =
+            rowNumbers[2].value;
+
+
+        total =
+            rowNumbers[3].value;
+
+    }
+
+
+    else {
+
+        return null;
+
+    }
+
+
+    /*
+     * Final rank validation.
+     */
+
+    if (
+        rank === null ||
+        rank === undefined ||
+        !Number.isFinite(rank) ||
+        rank < 1 ||
+        rank > 100
+    ) {
+
+        return null;
+
+    }
+
+
+    return {
+
+        rank:
+            rank,
+
+        eliminations:
+            eliminations,
+
+        placement:
+            placement,
+
+        total:
+            total
+
+    };
+
+}
+
+
+/* =====================================================
+   SPECIAL RANK OCR
+===================================================== */
+
+async function readRankFromImage(
+    imageFile,
+    soulCenterY,
+    soulX
+) {
+
+
+    /*
+     * Load image.
+     */
+
+    const image =
+        await loadImage(
+            imageFile
+        );
+
+
+    /*
+     * Create canvas.
+     */
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    /*
+     * IMPORTANT:
+     *
+     * The rank is immediately
+     * to the LEFT of Team SouL.
+     *
+     * We use a narrow crop so that
+     * OCR cannot read other numbers.
+     */
+
+    const cropLeft =
+        Math.max(
+            0,
+            soulX - 85
+        );
+
+
+    const cropRight =
+        Math.max(
+            cropLeft + 30,
+            soulX - 25
+        );
+
+
+    const cropTop =
+        Math.max(
+            0,
+            soulCenterY - 28
+        );
+
+
+    const cropHeight =
+        56;
+
+
+    const cropWidth =
+        Math.min(
+            image.width - cropLeft,
+            cropRight - cropLeft
+        );
+
+
+    /*
+     * Upscale the rank.
+     */
+
+    const scale =
+        6;
+
+
+    canvas.width =
+        cropWidth * scale;
+
+
+    canvas.height =
+        cropHeight * scale;
+
+
+    ctx.imageSmoothingEnabled =
+        false;
+
+
+    ctx.drawImage(
+
+        image,
+
+        cropLeft,
+        cropTop,
+        cropWidth,
+        cropHeight,
+
+        0,
+        0,
+        canvas.width,
+        canvas.height
+
+    );
+
+
+    /*
+     * OCR only the small rank area.
+     */
+
+    const result =
+        await Tesseract.recognize(
+
+            canvas,
+
+            "eng",
+
+            {
+
+                config: {
+
+                    /*
+                     * Single word.
+                     */
+
+                    tessedit_pageseg_mode: 8,
+
+                    /*
+                     * Numbers only.
+                     */
+
+                    tessedit_char_whitelist:
+                        "0123456789"
+
+                }
+
+            }
+
+        );
+
+
+    const text =
+        String(
+            result.data.text || ""
+        )
+        .replace(
+            /[^0-9]/g,
+            ""
+        );
+
+
+    console.log(
+        "SPECIAL RANK OCR:",
+        text
+    );
+
+
+    if (!text) {
+
+        return null;
+
+    }
+
+
+    const number =
+        Number(text);
+
+
+    if (
+        !Number.isFinite(number) ||
+        number < 1 ||
+        number > 100
+    ) {
+
+        return null;
+
+    }
+
+
+    return number;
+
+}
+
+
+/* =====================================================
+   LOAD IMAGE
+===================================================== */
+
+function loadImage(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const image =
+                new Image();
+
+
+            image.onload =
+                function () {
+
+                    resolve(
+                        image
+                    );
+
+                };
+
+
+            image.onerror =
+                function () {
+
+                    reject(
+                        new Error(
+                            "Unable to load image"
+                        )
+                    );
+
+                };
+
+
+            image.src =
+                URL.createObjectURL(
+                    file
+                );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   NEXT MATCH NUMBER
+===================================================== */
+
+async function getNextMatchNumber(day) {
+
+    const range =
+        getMatchRange(
+            day
+        );
+
+
+    const response =
+        await fetch(
+            API + "/all"
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Unable to read existing results"
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    const tournament =
+        document
+            .getElementById("tournament")
+            .value
+            .trim();
+
+
+    /*
+     * Get existing match numbers.
+     */
+
+    const existingMatches =
+        data
+
+            .filter(item =>
+                item.tournament === tournament &&
+                item.matchDay === day &&
+                item.matchNumber != null
+            )
+
+            .map(item =>
+                Number(
+                    item.matchNumber
+                )
+            );
+
+
+    /*
+     * Find FIRST missing match.
+     */
+
+    for (
+        let match = range.start;
+        match <= range.end;
+        match++
+    ) {
+
+        if (
+            !existingMatches.includes(
+                match
+            )
+        ) {
+
+            return match;
+
+        }
+
+    }
+
+
+    throw new Error(
+        "All 6 matches for " +
+        day +
+        " have already been entered."
+    );
+
+}
+
+
+/* =====================================================
+   SAVE RESULT
+===================================================== */
+
+saveButton.addEventListener(
+    "click",
+    async function () {
+
+
+        if (!detectedResult) {
+
+            setStatus(
+                "Please read a screenshot first."
+            );
+
+            return;
+
+        }
+
+
+        saveButton.disabled =
+            true;
+
+
+        saveButton.textContent =
+            "SAVING...";
+
+
+        try {
+
+
+            const response =
+                await fetch(
+
+                    API,
+
+                    {
+
+                        method:
+                            "POST",
+
+                        headers:
+                            {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                        body:
+                            JSON.stringify(
+                                detectedResult
+                            )
+
+                    }
+
+                );
+
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+
+                throw new Error(
+                    errorText ||
+                    "Save failed"
+                );
+
+            }
+
+
+            const saved =
+                await response.json();
+
+
+            setStatus(
+                "Match " +
+                saved.matchNumber +
+                " saved successfully."
+            );
+
+
+            saveButton.textContent =
+                "MATCH SAVED";
+
+
+            detectedResult =
+                null;
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                error
+            );
+
+
+            setStatus(
+                "Unable to save the result. " +
+                error.message
+            );
+
+
+            saveButton.disabled =
+                false;
+
+
+            saveButton.textContent =
+                "SAVE MATCH RESULT";
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

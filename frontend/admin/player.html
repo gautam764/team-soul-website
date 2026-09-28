@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Players - Team SouL</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+   <nav class="admin-nav">
+    <a href="index.html">Dashboard</a>
+    <a href="players.html">Players</a>
+    <a href="matches.html">Matches</a>
+    <a href="tournaments.html">Tournaments</a>
+    <a href="news.html">News</a>
+    <a href="../index.html">Website</a>
+    <a href="media.html">
+    Media
+</a>
+</nav>
+
+    <h1>Manage Players</h1>
+
+    <div class="form-box">
+
+        <h2>Add Player</h2>
+
+        <input type="text" id="playerName" placeholder="Player Name">
+
+        <input type="text" id="realName" placeholder="Real Name">
+
+        <input type="text" id="role" placeholder="Role">
+
+        <input type="text" id="image" placeholder="Player Image URL">
+
+        <input type="text" id="instagram" placeholder="Instagram URL">
+
+        <input type="text" id="youtube" placeholder="YouTube URL">
+
+        <input type="text" id="twitter" placeholder="X / Twitter URL">
+
+        <input type="text" id="status" placeholder="Status" value="ACTIVE">
+
+        <button onclick="addPlayer()">
+            Add Player
+        </button>
+
+    </div>
+
+    <h2>Players</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Photo</th>
+                <th>Player</th>
+                <th>Real Name</th>
+                <th>Role</th>
+                <th>Socials</th>
+                <th>Status</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="playersTable"></tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const API = "http://localhost:8080/api/players";
+
+
+async function loadPlayers() {
+
+    const response = await fetch(API);
+
+    const players = await response.json();
+
+    const table = document.getElementById("playersTable");
+
+    table.innerHTML = "";
+
+    players.forEach(player => {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${player.id}</td>
+
+                <td>
+                    ${
+                        player.image
+                        ? `<img src="${player.image}"
+                                style="width:60px;height:60px;object-fit:cover;">`
+                        : "No Image"
+                    }
+                </td>
+
+                <td>${player.playerName || ""}</td>
+
+                <td>${player.realName || ""}</td>
+
+                <td>${player.role || ""}</td>
+
+                <td>
+
+                    ${
+                        player.instagram
+                        ? `<a href="${player.instagram}" target="_blank">Instagram</a>`
+                        : ""
+                    }
+
+                    ${
+                        player.youtube
+                        ? `<br><a href="${player.youtube}" target="_blank">YouTube</a>`
+                        : ""
+                    }
+
+                    ${
+                        player.twitter
+                        ? `<br><a href="${player.twitter}" target="_blank">X</a>`
+                        : ""
+                    }
+
+                </td>
+
+                <td>${player.status || ""}</td>
+
+                <td>
+
+                    <button onclick="deletePlayer(${player.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+async function addPlayer() {
+
+    const player = {
+
+        playerName:
+            document.getElementById("playerName").value,
+
+        realName:
+            document.getElementById("realName").value,
+
+        role:
+            document.getElementById("role").value,
+
+        image:
+            document.getElementById("image").value,
+
+        instagram:
+            document.getElementById("instagram").value,
+
+        youtube:
+            document.getElementById("youtube").value,
+
+        twitter:
+            document.getElementById("twitter").value,
+
+        status:
+            document.getElementById("status").value
+
+    };
+
+    await fetch(API, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(player)
+
+    });
+
+    alert("Player added successfully!");
+
+    document.getElementById("playerName").value = "";
+    document.getElementById("realName").value = "";
+    document.getElementById("role").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("instagram").value = "";
+    document.getElementById("youtube").value = "";
+    document.getElementById("twitter").value = "";
+    document.getElementById("status").value = "ACTIVE";
+
+    loadPlayers();
+
+}
+
+
+async function deletePlayer(id) {
+
+    if (!confirm("Delete this player?")) {
+        return;
+    }
+
+    await fetch(`${API}/${id}`, {
+        method: "DELETE"
+    });
+
+    loadPlayers();
+
+}
+
+
+loadPlayers();
+
+</script>
+
+</body>
+
+</html>

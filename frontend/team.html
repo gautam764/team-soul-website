@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team SouL | Roster</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="team-page">
+
+<header class="main-header">
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+    <nav>
+
+        <a href="index.html">HOME</a>
+
+        <a href="team.html" class="active">TEAM</a>
+
+        <a href="matches.html">MATCHES</a>
+
+        <a href="tournaments.html">TOURNAMENTS</a>
+
+        <a href="news.html">NEWS</a>
+
+        <a href="media.html">MEDIA</a>
+
+        <a href="shop.html">ACHIEVEMENTS</a>
+
+        <a href="about.html">ABOUT</a>
+
+    </nav>
+
+</header>
+
+
+<!-- PAGE INTRO -->
+
+<section class="intro">
+
+    <p class="red">TEAM SOUL • BGMI</p>
+
+    <h2>OUR ROSTER</h2>
+
+    <p>
+        Meet the current Team SouL BGMI roster.
+    </p>
+
+</section>
+
+
+<!-- PLAYER ROSTER -->
+
+<section class="players-section">
+
+    <div class="players" id="playersContainer">
+
+        <p>Loading players...</p>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+    <p>
+        TEAM SOUL • S8UL ESPORTS
+    </p>
+
+    <div class="social">
+
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">YouTube</a>
+        <a href="#" target="_blank">X</a>
+
+    </div>
+
+    <small>
+        © 2026 Team SouL. All rights reserved.
+    </small>
+
+</footer>
+
+
+<script>
+
+const API = "http://localhost:8080/api/players";
+
+async function loadPlayers() {
+
+    try {
+
+        const response = await fetch(API);
+
+        if (!response.ok) {
+            throw new Error("Failed to load players");
+        }
+
+        const players = await response.json();
+
+        const container =
+            document.getElementById("playersContainer");
+
+        container.innerHTML = "";
+
+        if (players.length === 0) {
+
+            container.innerHTML = `
+                <p>No players available.</p>
+            `;
+
+            return;
+        }
+
+        players.forEach(player => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "player";
+
+            const image = player.image
+                ? `<img src="${player.image}" alt="${player.playerName}">`
+                : `<span>${player.playerName}</span>`;
+
+            card.innerHTML = `
+
+                <div class="player-img">
+                    ${image}
+                </div>
+
+                <div class="player-info">
+
+                    <span class="player-status">
+                        ${player.status || "ACTIVE"}
+                    </span>
+
+                    <h3>
+                        ${player.playerName || ""}
+                    </h3>
+
+                    <h4>
+                        ${player.realName || ""}
+                    </h4>
+
+                    <div class="social-links">
+
+                        ${
+                            player.instagram
+                            ?
+                            `
+                            <a href="${player.instagram}"
+                               target="_blank">
+                                Instagram
+                            </a>
+                            `
+                            : ""
+                        }
+
+                        ${
+                            player.youtube
+                            ?
+                            `
+                            <a href="${player.youtube}"
+                               target="_blank">
+                                YouTube
+                            </a>
+                            `
+                            : ""
+                        }
+
+                        ${
+                            player.twitter
+                            ?
+                            `
+                            <a href="${player.twitter}"
+                               target="_blank">
+                                X
+                            </a>
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("playersContainer").innerHTML = `
+            <p>Unable to load players.</p>
+        `;
+
+    }
+
+}
+
+loadPlayers();
+
+</script>
+</body>
+
+
+</html>

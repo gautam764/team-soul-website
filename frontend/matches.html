@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Team SouL | Matches</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="matches-page">
+
+<header class="main-header">
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+    <nav>
+
+        <a href="index.html">HOME</a>
+        <a href="team.html">TEAM</a>
+        <a href="matches.html" class="active">MATCHES</a>
+        <a href="tournaments.html">TOURNAMENTS</a>
+        <a href="news.html">NEWS</a>
+        <a href="media.html">MEDIA</a>
+        <a href="shop.html">ACHIEVEMENTS</a>
+        <a href="about.html">ABOUT</a>
+        <a href="contact.html">CONTACT</a>
+
+    </nav>
+
+</header>
+
+
+<section class="intro">
+
+    <p class="red">TEAM SOUL • BGMI</p>
+
+    <h2>LATEST MATCHES</h2>
+
+    <p>
+        Team SouL's latest tournament match results.
+    </p>
+
+</section>
+
+
+<section class="matches-section">
+
+    <div id="matchesContainer" class="matches-grid">
+
+        <p>Loading matches...</p>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <a href="index.html" class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+    <p>
+        TEAM SOUL • S8UL ESPORTS
+    </p>
+
+    <small>
+        © 2026 Team SouL. All rights reserved.
+    </small>
+
+</footer>
+
+
+<script>
+
+const API =
+    "http://localhost:8080/api/daily-standings/all";
+
+
+function getDayNumber(day) {
+
+    const match =
+        String(day).match(/\d+/);
+
+    return match
+        ? Number(match[0])
+        : 0;
+
+}
+
+
+function getLatestDay(days) {
+
+    return days.sort(
+        (a, b) =>
+            getDayNumber(b) -
+            getDayNumber(a)
+    )[0];
+
+}
+
+
+async function loadMatches() {
+
+    const container =
+        document.getElementById("matchesContainer");
+
+
+    try {
+
+        const response =
+            await fetch(API);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load matches"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.length) {
+
+            container.innerHTML =
+                "<p>No match results available.</p>";
+
+            return;
+
+        }
+
+
+        /* LATEST TOURNAMENT */
+
+        const tournaments = [
+            ...new Set(
+                data
+                    .map(item => item.tournament)
+                    .filter(Boolean)
+            )
+        ];
+
+
+        const latestTournament =
+            tournaments[
+                tournaments.length - 1
+            ];
+
+
+        /* LATEST DAY */
+
+        const days = [
+            ...new Set(
+                data
+                    .filter(
+                        item =>
+                            item.tournament ===
+                            latestTournament
+                    )
+                    .map(
+                        item =>
+                            item.matchDay
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+
+        const latestDay =
+            getLatestDay(days);
+
+
+        /* LATEST DAY MATCHES */
+
+        const matches =
+            data
+                .filter(
+                    item =>
+                        item.tournament ===
+                        latestTournament &&
+                        item.matchDay ===
+                        latestDay
+                )
+                .sort(
+                    (a, b) =>
+                        Number(a.matchNumber) -
+                        Number(b.matchNumber)
+                );
+
+
+        container.innerHTML = "";
+
+
+        if (!matches.length) {
+
+            container.innerHTML =
+                "<p>No matches available.</p>";
+
+            return;
+
+        }
+
+
+        matches.forEach(match => {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "match-card";
+
+
+            card.innerHTML = `
+
+                <div class="match-card-top">
+
+                    <span class="match-number">
+                        MATCH ${match.matchNumber ?? "-"}
+                    </span>
+
+                    <span class="match-team">
+                        TEAM SOUL
+                    </span>
+
+                </div>
+
+
+                <div class="match-result">
+
+                    <div class="match-rank">
+
+                        <span>RANK</span>
+
+                        <strong>
+                            ${match.rank ?? "-"}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="match-stats">
+
+                        <div class="match-stat">
+
+                            <span>FINISHES</span>
+
+                            <strong>
+                                ${match.finishPoints ?? 0}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="match-stat">
+
+                            <span>PLACEMENT</span>
+
+                            <strong>
+                                ${match.placementPoints ?? 0}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="match-stat total-stat">
+
+                            <span>TOTAL POINTS</span>
+
+                            <strong>
+                                ${match.totalPoints ?? 0}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>Unable to load match results.</p>";
+
+    }
+
+}
+
+
+loadMatches();
+
+</script>
+
+</body>
+
+</html>

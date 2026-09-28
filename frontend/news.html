@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Team SouL | News</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="main-header">
+
+    <a
+        href="index.html"
+        class="brand">
+
+        <img
+            src="images/team-soul-logo.png"
+            alt="Team SouL"
+            class="team-logo">
+
+        <span class="brand-text">
+            TEAM SOUL
+        </span>
+
+    </a>
+
+
+    <nav>
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a href="team.html">
+            TEAM
+        </a>
+
+        <a href="matches.html">
+            MATCHES
+        </a>
+
+        <a href="tournaments.html">
+            TOURNAMENTS
+        </a>
+
+        <a
+            href="news.html"
+            class="active">
+
+            NEWS
+
+        </a>
+
+        <a href="media.html">
+            MEDIA
+        </a>
+
+        <a href="shop.html">
+            ACHIEVEMENTS
+        </a>
+
+        <a href="about.html">
+            ABOUT
+        </a>
+
+        <a href="contact.html">
+            CONTACT
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="news-hero">
+
+    <div class="news-hero-content">
+
+        <p class="news-label">
+            TEAM SOUL • NEWSROOM
+        </p>
+
+        <h1>
+            SOUL <span>NEWS</span>
+        </h1>
+
+        <p>
+            Latest Team SouL announcements,
+            tournament updates, player performances
+            and esports stories.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<section class="news-intro">
+
+    <div>
+
+        <p class="news-label">
+            THE LATEST
+        </p>
+
+        <h2>
+            WHAT'S HAPPENING IN SOUL
+        </h2>
+
+        <p>
+            Follow the latest developments from Team SouL,
+            from competitive BGMI results to player updates,
+            tournament performances and team announcements.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     NEWS
+========================= -->
+
+<section class="news-section">
+
+    <div class="news-section-heading">
+
+        <div>
+
+            <p class="news-label">
+                TEAM SOUL
+            </p>
+
+            <h2>
+                LATEST STORIES
+            </h2>
+
+        </div>
+
+        <span class="news-count">
+            NEWSROOM
+        </span>
+
+    </div>
+
+
+    <div
+        id="newsContainer"
+        class="soul-news-grid">
+
+        <div class="news-loading">
+            LOADING NEWS...
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="news-cta">
+
+    <div>
+
+        <p class="news-label">
+            STAY CONNECTED
+        </p>
+
+        <h2>
+            FOLLOW TEAM SOUL
+        </h2>
+
+        <p>
+            Follow Team SouL for competitive updates,
+            announcements, tournament results and new content.
+        </p>
+
+
+        <div class="news-buttons">
+
+            <a
+                href="https://www.instagram.com/soulesportsofficial/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                INSTAGRAM
+
+            </a>
+
+
+            <a
+                href="https://s8ul.gg/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                S8UL
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <a
+            href="index.html"
+            class="brand">
+
+            <img
+                src="images/team-soul-logo.png"
+                alt="Team SouL"
+                class="team-logo">
+
+            <span class="brand-text">
+                TEAM SOUL
+            </span>
+
+        </a>
+
+
+        <p>
+            TEAM SOUL • S8UL ESPORTS
+        </p>
+
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="team.html">
+                Team
+            </a>
+
+            <a href="matches.html">
+                Matches
+            </a>
+
+            <a href="tournaments.html">
+                Tournaments
+            </a>
+
+            <a href="news.html">
+                News
+            </a>
+
+            <a href="shop.html">
+                Achievements
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+
+        <small>
+            © 2026 Team SouL.
+            All rights reserved.
+        </small>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+const API =
+    "http://localhost:8080/api/news";
+
+
+async function loadNews() {
+
+    const container =
+        document.getElementById(
+            "newsContainer"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(API);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load news"
+            );
+
+        }
+
+
+        const news =
+            await response.json();
+
+
+        container.innerHTML = "";
+
+
+        /* =========================
+           NO NEWS
+        ========================= */
+
+        if (news.length === 0) {
+
+            container.innerHTML = `
+
+                <article class="soul-news-card featured-news">
+
+                    <div class="news-card-image">
+
+                        <div class="news-placeholder">
+                            SOUL
+                        </div>
+
+                    </div>
+
+
+                    <div class="soul-news-content">
+
+                        <span class="news-category">
+                            TEAM SOUL
+                        </span>
+
+
+                        <h3>
+                            Welcome to the Team SouL Newsroom
+                        </h3>
+
+
+                        <p>
+                            Stay connected with Team SouL
+                            for tournament results,
+                            roster updates, player performances
+                            and esports announcements.
+                        </p>
+
+
+                        <span class="news-read">
+                            MORE UPDATES COMING SOON →
+                        </span>
+
+                    </div>
+
+                </article>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        /* =========================
+           DISPLAY NEWS
+        ========================= */
+
+        news.forEach((item, index) => {
+
+            const featured =
+                index === 0
+                ? "featured-news"
+                : "";
+
+
+            const image =
+
+                item.image
+
+                ?
+
+                `
+                <img
+                    src="${item.image}"
+                    alt="${item.title || "Team SouL News"}">
+                `
+
+                :
+
+                `
+                <div class="news-placeholder">
+                    SOUL
+                </div>
+                `;
+
+
+            const card = `
+
+                <article
+                    class="soul-news-card ${featured}">
+
+
+                    <div class="news-card-image">
+
+                        ${image}
+
+                    </div>
+
+
+                    <div class="soul-news-content">
+
+
+                        <span class="news-category">
+                            TEAM SOUL
+                        </span>
+
+
+                        <h3>
+                            ${item.title || "Team SouL Update"}
+                        </h3>
+
+
+                        <p>
+                            ${item.description || ""}
+                        </p>
+
+
+                        <span class="news-read">
+                            READ UPDATE →
+                        </span>
+
+
+                    </div>
+
+
+                </article>
+
+            `;
+
+
+            container.innerHTML += card;
+
+        });
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+
+            <article class="soul-news-card featured-news">
+
+                <div class="news-card-image">
+
+                    <div class="news-placeholder">
+                        SOUL
+                    </div>
+
+                </div>
+
+
+                <div class="soul-news-content">
+
+                    <span class="news-category">
+                        TEAM SOUL
+                    </span>
+
+
+                    <h3>
+                        Team SouL News
+                    </h3>
+
+
+                    <p>
+                        News updates will appear here
+                        when they are published through
+                        the Team SouL administration system.
+                    </p>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+}
+
+
+loadNews();
+
+</script>
+
+
+</body>
+
+</html>
