@@ -1,4 +1,4 @@
-const API = "http://localhost:8080/api/players";
+const API = "https://team-soul-website.onrender.com/api/players";
 
 async function loadPlayers() {
     const response = await fetch(API);
